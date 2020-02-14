@@ -1,0 +1,21 @@
+#!/bin/sh
+while true
+do
+    status=`acpiconf -i batt | grep State: | awk '{print $2}'`
+    if [ ${status} = 'discharging' ]
+    then
+        percent=`acpiconf -i batt | grep 'Remaining capacity:' | awk '{print $3}' | sed 's/%//g'`
+        if [ ${percent} -lt "1" ]
+        then
+            sudo poweroff
+        elif [ ${percent} -lt "20" ]
+        then
+            xmessage -button ok -center "Battery Low: ${percent}% Left!!!"
+        fi
+    fi
+    if [ ${status} = 'Full' ]
+    then
+        xmessage -button ok -center "Battery Full!!!"
+    fi
+    sleep 60
+done

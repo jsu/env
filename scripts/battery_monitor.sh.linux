@@ -1,0 +1,23 @@
+#!/bin/sh
+
+while true
+do
+    #ps | grep xmessage | grep -v grep | awk '{print $1}' | xargs kill
+    status=`apm | grep adapter | awk '{print $4}'`
+    if [ x"${status}" = "not" ]
+    then
+        percent=`apm -l`
+        if [ ${percent} -lt 3 ]
+        then
+            sudo shutdown -h -p now
+        elif [ ${percent} -lt 20 ]
+        then
+            xmessage -button ok -center "Battery Low: ${percent}% Left!!!" &
+        fi
+    elif [ "x${percent}" = "x100" ]
+    then
+        xmessage -button ok -center "Battery Full!!!" &
+    fi
+    sleep 60
+done
+
