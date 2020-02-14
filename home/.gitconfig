@@ -1,0 +1,8 @@
+[user]
+	signingkey = 1F8B08014EF5AE21
+	name = jsu
+	email = jsu317@gmail.com
+[commit]
+	gpgsign = true
+[gpg]
+	program = gpg

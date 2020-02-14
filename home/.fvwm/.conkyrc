@@ -1,0 +1,36 @@
+alignment                 top_left
+background                no
+border_width              0
+cpu_avg_samples           5
+default_color             white
+default_outline_color     white
+draw_borders              no
+draw_graph_borders        no
+draw_outline              no
+draw_shades               no
+use_xft                   yes
+xftfont 		          Monospace:size=8
+xftalpha    	          0.8
+gap_x                     0
+gap_y                     0
+#minimum_size              1024 0
+#maximum_width             1024
+net_avg_samples           2
+no_buffers                yes
+out_to_console            no
+own_window                yes
+own_window_class          Conky
+own_window_type           desktop
+own_window_transparent    yes
+own_window_hints          undecorated,below,sticky,skip_taskbar,skip_pager
+update_interval           1
+uppercase                 no
+use_spacer                left
+use_spacer                right
+double_buffer             yes
+short_units               yes
+pad_percents              1
+text_buffer_size          512
+
+TEXT
+${voffset 4}${font Spleen:size=12}${color red}     PWNASS  ${color white}${time %m/%d %H:%M} | ${color #F09000}CPU${color #707070}:${color white} ${cpubar cpu0 8,50} | ${color #F09000}MEM${color #707070}:${color white} ${membar 8,50} | ${if_up athn0}${color #F09000}NIC${color #707070}:${color white} ${addr athn0} ${color #F09000}RX${color #707070}:${color white} ${downspeed athn0} ${color #F09000}TX${color #707070}:${color white} ${upspeed athn0}${endif}${if_up alc0}${color #F09000}NIC${color #707070}:${color white} ${addr alc0} ${color #F09000}RX${color #707070}:${color white} ${downspeed alc0} ${color #F09000}TX${color #707070}:${color white} ${upspeed alc0}${endif} |${color white} ${color #F09000}BAT${color #707070}:${color white} ${apm_battery_life} | ${color #F09000}HDA${color #707070}:${color white} ${diskio}${font}

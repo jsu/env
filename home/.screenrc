@@ -1,0 +1,32 @@
+hardstatus alwayslastline "%{=b}%{G} %{b}%w %=%{G}%m/%d %c "
+defscrollback 5000 
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+
+##    Some general options    ##
+
+# Turn off start message:
+startup_message off
+
+# Set messages timeout to one second:
+msgwait 1
+
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+
+##    Keybindings    ##
+
+# bind <F7> to detach screen from this terminal
+# bind <F8> to kill current session
+# bind <F10> to create a new screen
+# bind <F9> to rename an existing window
+# bind <F11> to move to previous window
+# bind <F12> to move to next window
+#bindkey -k k7 detach
+#bindkey -k k8 kill
+# space in keyboard
+#bindkey -k k; screen
+#bindkey -k k9 title
+#bindkey -k F1 prev
+#bindkey -k F2 next
+
+# =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= #
+

@@ -1,0 +1,468 @@
+###############################
+#  ____________________________
+# (   _________________________)
+#  ) (__  _  _  _    _  
+# (   __)( \/ )( \/\/ )/\/\
+#  ) (    \  /  \    //    \
+# (___)    \/    \/\/(_/\/\_) 2.5.10
+#
+###############################
+
+###############################
+# Set Environment variables
+###############################
+#SetEnv fvwm_home $[HOME]/tmp/.fvwm
+#SetEnv fvwm_img $[fvwm_home]/images
+#SetEnv fvwm_icon $[fvwm_home]/icons
+#SetEnv fvwm_scrpt $[fvwm_home]/scripts
+#SetEnv fvwm_wallpapers $[fvwm_img]/wallpaper
+
+###############################
+# Set the image path
+###############################
+#ImagePath $[fvwm_icon]:$[fvwm_icon];.png:+
+
+###############################
+# Virtual Desktops
+###############################
+DesktopSize 1x1
+#DesktopName 0 Main
+#EdgeScroll 0 0
+#EdgeResistance 150  150
+#EdgeThickness 1
+
+###############################
+# Keyboard and Mouse
+###############################
+ClickTime 350
+DoubleClickTime 500
+MoveThreshold 3
+#Style * SloppyFocus, MouseFocusClickRaises
+Style * ClickToFocus
+
+IgnoreModifiers L25
+
+#####
+# Global Styles and options
+###########
+EwmhBaseStruts 0 0 30 0
+#Style * TileCascadePlacement, GrabFocusOff
+#Style * NoPPosition, ResizeOpaque
+OpaqueMoveSize -1
+Style * ResizeOpaque
+#Emulate MWM
+HideGeometryWindow 
+#SnapAttraction 5 SameType Screen
+#SnapGrid 3 3
+#XorValue 55555
+#Style * DecorateTransient, DontRaiseTransient
+#Style * DontLowerTransient, StackTransientParent
+#Style * GrabFocusTransientOff
+#Style * WindowShadeSteps 20, WindowShadeScrolls
+#SetAnimation  10  -.01 0 .01 .03 .08 .18 .3 .45 .6 .75 .85 .90 .94 .97 .99 1.0
+#Style * MwmDecor, SlipperyIcon
+#Style * IconBox screen w 15 15 -165 -15, IconGrid 3 3, IconFill right top
+
+#####
+# Program Styles
+###########
+#Style "*" Icon 48x48/x.png, MiniIcon mini/x.png
+#Style "XTerm" Icon 48x48/terminal.png, NoActiveIconOverride, MiniIcon mini/terminal.png
+#Style "gvim" Icon 48x48/vim.png, IconOverride, MiniIcon mini/vim.png, EWMHMiniIconOverride
+#Style "Firefox-bin" Icon 48x48/firefox.png, MiniIcon mini/firefox.png, EWMHMiniIconOverride
+#Style "irssi" Icon 48x48/irc.png, MiniIcon mini/irc.png
+#Style "xmms" WindowListSkip, CirculateSkip
+
+#####
+# Basic Functions
+###########
+DestroyFunc FvwmDeleteOrDestroy
+AddToFunc   FvwmDeleteOrDestroy
++ I Delete
++ I Destroy
+
+DestroyFunc FvwmIconifyOrShade
+AddToFunc   FvwmIconifyOrShade
++ C Iconify
++ D WindowShade
+
+DestroyFunc FvwmMoveOrIconify
+AddToFunc   FvwmMoveOrIconify
++ M Move
++ D Iconify
+
+DestroyFunc FvwmWindowShade
+AddToFunc   FvwmWindowShade
++ D WindowShade $0
+
+#####
+# Program Launching Functions
+###########
+DestroyFunc FvwmLock
+AddToFunc   FvwmLock
++ "I" exec xlock -mode worm
+#+ I Exec exec xscreensaver-command -lock
+
+DestroyFunc FvwmConky
+AddToFunc   FvwmConky
++ I Exec exec conky -c ~/.fvwm/.conkyrc
+
+DestroyFunc FvwmURXVTD
+AddToFunc   FvwmURXVTD
++ I Exec exec urxvtd -q -f -o
+
+DestroyFunc FvwmXTerm
+AddToFunc   FvwmXTerm
++ "I" exec xterm
+#+ I Exec exec roxterm
+#+ I Exec exec urxvtc
+#+ I Exec exec x-terminal-emulator -fa 'Courier New' -fg White -bg Black -g 80x24 -fn 7x14 -fb 7x14bold
+#+ I Exec exec x-terminal-emulator
+
+DestroyFunc FvwmFireFox
+AddToFunc   FvwmFireFox
++ I Exec exec firefox
+
+DestroyFunc FvwmClawsMail
+AddToFunc   FvwmClawsMail
++ "I" exec claws-mail
+
+DestroyFunc FvwmOpera
+AddToFunc   FvwmOpera
++ I Exec exec opera
+
+DestroyFunc FvwmChrome
+AddToFunc   FvwmChrome
++ I Exec exec chrome
+#+ I Exec exec chrome --proxy-server="socks5://127.0.0.1:8888" --host-resolver-rules="MAP * 0.0.0.0, EXCLUDE 127.0.0.1"
+
+DestroyFunc FvwmViewManPage
+AddToFunc   FvwmViewManPage
++ I Exec exec xterm -fg White -bg DarkBlue -g 80x40 -fn 7x14 -fb 7x14bold \
+ -n "Manual Page - $0" -T "Manual Page - $0" -e man "$0"
+
+DestroyFunc FvwmBatteryMonitor
+AddToFunc   FvwmBatteryMonitor
++ "I" exec sh /home/jsu/scripts/battery_monitor.sh
+
+DestroyFunc FvwmSuspend
+AddToFunc   FvwmSuspend
++ I Exec exec xlock -mode worm & zzz
+
+DestroyFunc FvwmReboot
+AddToFunc   FvwmReboot
++ I Exec exec sudo shutdown -r now
+
+DestroyFunc FvwmShutdown
+AddToFunc   FvwmShutdown
++ I Exec exec sudo shutdown -h -p now
+
+DestroyFunc FvwmXSet
+AddToFunc   FvwmXSet
++ I Exec exec xset r rate 500 30
+
+#####
+# Startup Functions
+###########
+DestroyFunc StartFunction
+AddToFunc   StartFunction
+#+ I Module FvwmTaskBar
+#+ I Module FvwmPager 0 2
+#+ I Module FvwmButtons MyButtons
+#+ I FvwmURXVTD
++ I FvwmConky
++ I FvwmXSet
+#+ I FvwmBatteryMonitor
+
+DestroyFunc InitFunction
+AddToFunc   InitFunction
+#+ I Exec exec xscreensaver
+#+ I Exec exec fvwm-root -r $[fvwm_wallpapers]/background.png
+#+ I FvwmXmms
+#+ I FvwmXTerm
++ "I" exec xidle -delay 5 -program "/usr/X11R6/bin/xlock -mode worm" -timeout 300
++ "I" exec xsetroot -solid black
++ "I" exec sudo pkill xconsole
++ I Nop
+
+DestroyFunc RestartFunction
+AddToFunc   RestartFunction
++ I pkill conky
+#+ I killall urxvtd
++ I ps auux | grep battery_monitor | grep -v -e 'grep' | awk '{print $2}' | xargs kill
++ I Nop
+
+#####
+# Screenshot Functions (uses ImageMagick)
+###########
+DestroyFunc FvwmWindowScreenshot
+AddToFunc   FvwmWindowScreenshot
++ I ThisWindow (!Shaded !Iconic Iconifiable) \
+  Exec import -window $[w.id] -quality 100 -silent \
+  "$[fvwm_home]/screenshot/screenshot-`date +%F[%R]`.$[w.id].jpg"
+
+DestroyFunc FvwmDesktopScreenshot
+AddToFunc   FvwmDesktopScreenshot
++ I Exec sleep $0; import -window root -quality 100 -silent \
+  "$[fvwm_home]/screenshot/screenshot-`date +%F[%R]`.jpg"
+
+#####
+# XRoach Invasion
+###########
+DestroyFunc XRoachInvasion
+AddToFunc   XRoachInvasion
++ I Exec exec xroach -roaches 5 -rc Cyan -speed 17
++ I Exec exec xroach -roaches 3 -rc Red -speed 15
++ I Exec exec xroach -roaches 7 -rc Green -speed 10
++ I Exec exec xroach -roaches 3 -rc Blue -speed 20
++ I Exec exec xroach -roaches 1 -rc Black -speed 30
++ I Exec exec xroach -roaches 1 -rc White -speed 40
+
+DestroyFunc XRoachExterminate
+AddToFunc   XRoachExterminate
++ I Exec killall xroach
+
+#####
+# Basic Bindings
+###########
+#Key F1 A M Menu MenuFvwmRoot
+#Key Tab A M WindowList Root c c NoDeskSort, SelectOnRelease Meta_L
+Key Tab A M WindowList root c c currentDesk, NoGeometry, CurrentAtEnd, IconifiedAtEnd
+Key P A M Menu FvwmRootMenu
+Key M A M Maximize 100 100
+Key W A M FvwmDeleteOrDestroy
+#Key Q A M Destroy
+Key F A M FvwmFireFox
+Key O A M FvwmOpera
+Key T A M FvwmXTerm
+Key C A M FvwmClawsMail
+Key G A M FvwmChrome
+Key L A M FvwmLock
+Mouse 1 R A Menu FvwmRootMenu
+Mouse 3 R A Menu FvwmWindowOpsMenu
+#Mouse 1 1 A FvwmDeleteOrDestroy
+#Mouse 1 3 A FvwmIconifyOrShade
+#Mouse 1 5 A FvwmMaximize 100 100
+#Mouse 2 5 A FvwmMaximize 0 100
+#Mouse 3 5 A FvwmMaximize 100 0
+Mouse 1 W M FvwmMoveOrIconify
+Mouse 1 I A FvwmMoveOrIconify
+#jMouse 4 T A FvwmWindowShade True
+#Mouse 5 T A FvwmWindowShade False
+
+#####
+# Window Colorsets
+###########
+Colorset 3 fg #101060, bg #e6e7d7
+Colorset 4 fg Black, bg #a6a797
+Colorset 5 fg White, bg Black
+Colorset 6 fg Black, bg #bdbdbd  
+
+#####
+# Window Decor
+###########
+DestroyDecor MyDecor
+AddToDecor   MyDecor
++ TitleStyle Height 18
+#+ TitleStyle LeftJustified Height 18
++ ButtonStyle 1 ActiveUp Vector 4 30x30@3 60x60@3 60x30@4 30x60@3 -- Flat
++ ButtonStyle 1 ActiveDown Vector 4 30x30@3 60x60@3 60x30@4 30x60@3 -- Flat
++ ButtonStyle 1 Inactive Vector 4 30x30@3 60x60@3 60x30@4 30x60@3 -- Flat
++ ButtonStyle 3 ActiveUp Vector 5 30x60@3 60x60@3 60x50@3 30x50@3 30x60@3 -- Flat
++ ButtonStyle 3 ActiveDown Vector 5 30x60@3 60x60@3 60x50@3 30x50@3 30x60@3 -- Flat
++ ButtonStyle 3 Inactive Vector 5 30x60@3 60x60@3 60x50@3 30x50@3 30x60@3 -- Flat
++ ButtonStyle 5 ActiveUp Vector 7 30x30@3 30x60@3 60x60@3 60x30@3 30x30@3 30x35@3 60x35@3 -- Flat
++ ButtonStyle 5 ActiveDown Vector 7 30x30@3 30x60@3 60x60@3 60x30@3 30x30@3 30x35@3 60x35@3 -- Flat
++ ButtonStyle 5 Inactive Vector 7 30x30@3 30x60@3 60x60@3 60x30@3 30x30@3 30x35@3 60x35@3 -- Flat
++ TitleStyle -- Flat
++ BorderStyle Simple -- NoInset Flat
++ ButtonStyle All -- UseTitleStyle
+
+#####
+# Ukkosta Decor
+###########
+DestroyDecor UkkostaDecor
+AddToDecor   UkkostaDecor
++ TitleStyle LeftJustified Height 24
++ ButtonStyle 1 \
+        ActiveUp     (Pixmap $[fvwm_img]/button/close-activeup.png -- Flat) \
+        ActiveDown   (Pixmap $[fvwm_img]/button/close-activedown.png -- Flat) \
+        Inactive     (Pixmap $[fvwm_img]/button/inactive.png -- Flat)
++ ButtonStyle 3 \
+        ActiveUp     (Pixmap $[fvwm_img]/button/iconify-activeup.png -- Flat) \
+        ActiveDown   (Pixmap $[fvwm_img]/button/iconify-activedown.png -- Flat) \
+        Inactive     (Pixmap $[fvwm_img]/button/inactive.png -- Flat)
++ ButtonStyle 5 \
+        ActiveUp     (Pixmap $[fvwm_img]/button/maximize-activeup.png -- Flat) \
+        ActiveDown   (Pixmap $[fvwm_img]/button/maximize-activedown.png -- Flat) \
+        Inactive     (Pixmap $[fvwm_img]/button/inactive.png -- Flat)
++ ButtonStyle 1 - Clear
++ ButtonStyle 3 - Clear MwmDecorMin
++ ButtonStyle 5 - Clear MwmDecorMax
++ TitleStyle AllActive MultiPixmap \
+        Main AdjustedPixmap $[fvwm_img]/decor/title-main-active.xpm, \
+        LeftEnd AdjustedPixmap $[fvwm_img]/decor/title-leftend-active.xpm, \
+        RightEnd AdjustedPixmap $[fvwm_img]/decor/title-rightend-active.xpm, \
+        UnderText AdjustedPixmap $[fvwm_img]/decor/title-undertext-active.xpm, \
+        LeftOfText AdjustedPixmap $[fvwm_img]/decor/title-leftoftext-active.xpm, \
+        RightOfext AdjustedPixmap $[fvwm_img]/decor/title-rightoftext-active.xpm
++ TitleStyle AllInactive MultiPixmap \
+        Main AdjustedPixmap $[fvwm_img]/decor/title-main-inactive.xpm, \
+        LeftEnd AdjustedPixmap $[fvwm_img]/decor/title-leftend-inactive.xpm, \
+        RightEnd AdjustedPixmap $[fvwm_img]/decor/title-rightend-inactive.xpm, \
+        UnderText AdjustedPixmap $[fvwm_img]/decor/title-undertext-inactive.xpm, \
+        LeftOfText AdjustedPixmap $[fvwm_img]/decor/title-leftoftext-inactive.xpm, \
+        RightOfext AdjustedPixmap $[fvwm_img]/decor/title-rightoftext-inactive.xpm
++ TitleStyle -- Flat
++ BorderStyle Simple -- NoInset Flat
++ ButtonStyle All -- UseTitleStyle
+
+#####
+# Window Styles
+###########
+#Style "*" UseDecor MyDecor
+#Style * Font "xft:Sans:Medium:size=10:minspace=False:antialias=True:encoding=iso10641-1"
+Style * Font "xft:Spleen:Medium:size=10:minspace=False:antialias=True:encoding=iso10641-1"
+Style * Font "StringEncoding=UTF-8:xft:microsoft yahei:size=11:encoding=iso10646-1"
+Style * BorderWidth 1, HandleWidth 1
+#Style * MWMBorder, FirmBorder
+Style * FirmBorder
+Style * Colorset 5
+#Style * HilightColorset 3
+Style * BorderColorset 4
+#Style * HilightBorderColorset 4
+
+#####
+# Menu Colorsets
+###########
+#Colorset 7 fg Black, bg #e6e7d7, sh Black, hi #202070
+Colorset 8 fg Yellow, bg #e6e7d7, sh Black, hi #202070
+
+#Colorset 7 RootTransparent, fg Black, bg average, sh Black, \
+  hi #202070, Tint White 60, bgTint White 60
+
+Colorset 7 fg Black, Translucent White 75, \
+  hi Black, sh Black
+
+#####
+# MenuStyles
+###########
+MenuStyle * PopupDelayed, PopupDelay 300, PopdownImmediately
+MenuStyle * PopupOffset -5 100, TitleWarpOff
+MenuStyle * TitleUnderlines2, SeparatorsLong, TrianglesSolid
+MenuStyle * AnimationOff, AutomaticHotkeysOff
+MenuStyle * BorderWidth 1
+MenuStyle * PopupAsSubmenu, HoldSubmenus, SubmenusRight
+MenuStyle * ItemFormat "%|%5.5i%1.3l%2.3>%|"
+MenuStyle * VerticalItemSpacing 1 1, VerticalTitleSpacing 2 2
+MenuStyle * MenuColorset 5
+MenuStyle * ActiveFore, Hilight3DOff
+MenuStyle * ActiveColorset 8
+MenuStyle * Font "Shadow=2:xft:Spleen:Bold:size=11:antialias=True"
+MenuStyle * Font "StringEncoding=UTF-8:xft:wenquanyi micro hei:size=11:encoding=iso10646-1"
+
+#####
+# FvwmRootMenu
+###########
+DestroyMenu FvwmRootMenu
+AddToMenu   FvwmRootMenu "L33t Menu" Title
++ "Suspend" FvwmSuspend
++ "" Nop
++ "Restart FVWM%menu/restart.png%"  Restart
++ "Quit FVWM%menu/quit.png%"  Quit
++ "" Nop
++ "Reboot%menu/restart.png%" FvwmReboot
++ "Shutdown%menu/quit.png%" FvwmShutdown
+
+#####
+# FVWM Help Menu
+###########
+DestroyMenu FvwmManPagesMenu
+AddToMenu   FvwmManPagesMenu "FVWM Man Pages" Title
++ "%menu/help.png%fvwm"                FvwmViewManPage fvwm
++ "%menu/help.png%FvwmAnimate"         FvwmViewManPage FvwmAnimate
++ "%menu/help.png%FvwmAuto"            FvwmViewManPage FvwmAuto
++ "%menu/help.png%FvwmBacker"          FvwmViewManPage FvwmBacker
++ "%menu/help.png%FvwmBanner"          FvwmViewManPage FvwmBanner
++ "%menu/help.png%FvwmButtons"         FvwmViewManPage FvwmButtons
++ "%menu/help.png%FvwmCommand"         FvwmViewManPage FvwmCommand
++ "%menu/help.png%FvwmConsole"         FvwmViewManPage FvwmConsole
++ "%menu/help.png%FvwmConsoleC.pl"     FvwmViewManPage FvwmConsoleC.pl
++ "%menu/help.png%FvwmCpp"             FvwmViewManPage FvwmCpp
++ "%menu/help.png%FvwmDebug"           FvwmViewManPage FvwmDebug
++ "%menu/help.png%FvwmDragWell"        FvwmViewManPage FvwmDragWell
++ "%menu/help.png%FvwmEvent"           FvwmViewManPage FvwmEvent
++ "%menu/help.png%FvwmForm"            FvwmViewManPage FvwmForm
++ "%menu/help.png%FvwmGtk"             FvwmViewManPage FvwmGtk
++ "%menu/help.png%FvwmGtkDebug"        FvwmViewManPage FvwmGtkDebug
++ "%menu/help.png%FvwmIconBox"         FvwmViewManPage FvwmIconBox
++ "%menu/help.png%FvwmIconMan"         FvwmViewManPage FvwmIconMan
++ "%menu/help.png%FvwmIdent"           FvwmViewManPage FvwmIdent
++ "%menu/help.png%FvwmM4"              FvwmViewManPage FvwmM4
++ "%menu/help.png%FvwmPager"           FvwmViewManPage FvwmPager
++ "%menu/help.png%FvwmPerl"            FvwmViewManPage FvwmPerl
++ "%menu/help.png%FvwmProxy"           FvwmViewManPage FvwmProxy
++ "%menu/help.png%FvwmRearrange"       FvwmViewManPage FvwmRearrange
++ "%menu/help.png%FvwmSave"            FvwmViewManPage FvwmSave
++ "%menu/help.png%FvwmSaveDesk"        FvwmViewManPage FvwmSaveDesk
++ "%menu/help.png%FvwmScript"          FvwmViewManPage FvwmScript
++ "%menu/help.png%FvwmScroll"          FvwmViewManPage FvwmScroll
++ "%menu/help.png%FvwmTaskBar"         FvwmViewManPage FvwmTaskBar
++ "%menu/help.png%FvwmTheme"           FvwmViewManPage FvwmTheme
++ "%menu/help.png%FvwmWharf"           FvwmViewManPage FvwmWharf
++ "%menu/help.png%FvwmWinList"         FvwmViewManPage FvwmWinList
++ "%menu/help.png%FvwmWindowMenu"      FvwmViewManPage FvwmWindowMenu
++ "" Nop
++ "%menu/help.png%fvwm-config"         FvwmViewManPage fvwm-config
++ "%menu/help.png%fvwm-perllib"        FvwmViewManPage fvwm-perllib
++ "%menu/help.png%fvwm-root"           FvwmViewManPage fvwm-root
++ "%menu/help.png%fvwm-bug"            FvwmViewManPage fvwm-bug
++ "%menu/help.png%fvwm-convert-2.2"    FvwmViewManPage fvwm-convert-2.2
++ "%menu/help.png%fvwm-convert-2.4"    FvwmViewManPage fvwm-convert-2.4
++ "" Nop
++ "%menu/help.png%fvwm-menu-desktop"   FvwmViewManPage fvwm-menu-desktop
++ "%menu/help.png%fvwm-menu-directory" FvwmViewManPage fvwm-menu-directory
++ "%menu/help.png%fvwm-menu-headlines" FvwmViewManPage fvwm-menu-headlines
++ "%menu/help.png%fvwm-menu-xlock"     FvwmViewManPage fvwm-menu-xlock
+
+#####
+# fvwm Window Operation Menu
+###########
+DestroyMenu FvwmWindowOpsMenu
+AddToMenu   FvwmWindowOpsMenu "Window Operations" Title
++ "Move%menu/window-move.xpm%"  Move
++ "Resize%menu/window-resize.xpm%"  Resize
++ "(De)Iconify%menu/window-iconify.xpm%"  Iconify
++ "(Un)Maximize%menu/window-maximize.xpm%"  Maximize
++ "(Un)Shade%menu/window-shade.xpm%"  WindowShade
++ "(Un)Stick%menu/window-stick.xpm%"  Stick
++ "" Nop
++ "Close%menu/window-close.xpm%"  Close
++ "Delete%menu/window-delete.xpm%"  Delete
++ "Destroy%menu/window-destroy.xpm%"  Destroy
++ "" Nop
++ "StaysOnTop%menu/window-raise.xpm%"  Pick (CirculateHit) Layer 0 6
++ "Layer +1%menu/window-raise.xpm%"  Pick (CirculateHit) Layer +1
++ "StaysPut%menu/window.xpm%"  Pick (CirculateHit) Layer 0 4
++ "Layer -1%menu/window-lower.xpm%"  Pick (CirculateHit) Layer -1
++ "StaysOnBottom%menu/window-lower.xpm%"  Pick (CirculateHit) Layer 0 2
++ "" Nop
++ "%menu/window.xpm%Window Screenshot"  Pick (CirculateHit) FvwmWindowScreenshot
++ "%menu/display.xpm%Screenshot" FvwmDesktopScreenshot 5
++ "" Nop
++ "Identify%menu/window-identify.xpm%"  Module FvwmIdent
++ "" Nop
++ "Help%menu/help.png%"  Popup FvwmManPagesMenu
+
+#####
+# Module Colorsets
+###########
+Colorset 9 fg rgb:00/00/00, hi rgb:00/00/00, sh rgb:00/00/00, bg rgb:e9/e9/d9
+Colorset 10 fg rgb:00/00/00, hi rgb:dd/00/00, sh rgb:dd/00/00, bg rgb:fb/fc/ec
+
+#####
+# FvwmIdent
+###########
+DestroyModuleConfig FvwmIdent: *
+*FvwmIdent: Colorset 5
+*FvwmIdent: Font "xft:Spleen:Bold:size=12:antialias=True"
