@@ -319,6 +319,9 @@ export GPG_TTY=$(tty)
 alias jq="jq --color-output"
 alias less="less -r"
 
+# virtualenv
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
 
 # PYENV
 export PYENV_ROOT="$HOME/.pyenv"
