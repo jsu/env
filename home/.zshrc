@@ -324,12 +324,12 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 
 # PYENV
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-alias brew="env PATH=${PATH//$(pyenv root)\/shims:/} brew"
+#export PYENV_ROOT="$HOME/.pyenv"
+#export PATH="$PYENV_ROOT/bin:$PATH"
+#export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+#eval "$(pyenv init -)"
+#eval "$(pyenv virtualenv-init -)"
+#alias brew="env PATH=${PATH//$(pyenv root)\/shims:/} brew"
 
 # added by Snowflake SnowSQL installer v1.0
 export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
