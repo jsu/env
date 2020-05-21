@@ -11,6 +11,9 @@ bindkey '^R' history-incremental-search-backward
 bindkey '^S' history-incremental-search-forward
 bindkey '^P' history-search-backward
 bindkey '^N' history-search-forward
+
+# Map jk to <esc> and set KEYTIMEOUT=10 to avoid waiting when typing j
+export KEYTIMEOUT=10
 bindkey -M viins 'jk' vi-cmd-mode
 
 # get the colors  

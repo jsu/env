@@ -14,6 +14,8 @@ set expandtab
 set autoindent
 syntax on
 
+inoremap jk <esc>
+nmap jk <esc>
 nnoremap <esc> :noh<return><esc>
 nnoremap <esc>^[ <esc>^[
-match Error /\%81v.\+/
+match Error /\%80v.\+/
