@@ -16,6 +16,7 @@ syntax on
 
 set timeoutlen=100 ttimeoutlen=10
 inoremap jk <esc>
+vnoremap jk <esc>
 nnoremap jk <esc>
 nnoremap jk :noh<return><esc>
 nnoremap jk^[ <esc>^[
