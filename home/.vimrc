@@ -14,8 +14,11 @@ set expandtab
 set autoindent
 syntax on
 
+set timeoutlen=100 ttimeoutlen=10
 inoremap jk <esc>
-nmap jk <esc>
+nnoremap jk <esc>
+nnoremap jk :noh<return><esc>
+nnoremap jk^[ <esc>^[
 nnoremap <esc> :noh<return><esc>
 nnoremap <esc>^[ <esc>^[
 match Error /\%80v.\+/

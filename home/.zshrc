@@ -12,8 +12,8 @@ bindkey '^S' history-incremental-search-forward
 bindkey '^P' history-search-backward
 bindkey '^N' history-search-forward
 
-# Map jk to <esc> and set KEYTIMEOUT=10 to avoid waiting when typing j
-export KEYTIMEOUT=10
+# Map jk to <esc> and set KEYTIMEOUT=1 to avoid waiting when typing j
+export KEYTIMEOUT=1
 bindkey -M viins 'jk' vi-cmd-mode
 
 # get the colors  
@@ -298,6 +298,8 @@ then
     # The next line enables shell command completion for gcloud.
     #if [ -f '/Users/jsu/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/jsu/google-cloud-sdk/completion.zsh.inc'; fi
 elif [[ $UNAME == 'FreeBSD' ]]
+    # added by Snowflake SnowSQL installer v1.0
+    export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
 then
     alias ls='ls -G'
 elif [[ $UNAME == 'OpenBSD' ]]
@@ -306,14 +308,9 @@ then
 elif [[ $UNAME == 'Linux' ]]
 then
     alias ls='ls --color'
+    PROMPT='%m# '
 fi
 
-# Work
-if [ -f kubectl ];
-then
-    source <(kubectl completion zsh)
-fi
-#source <(kubectl completion zsh)
 # Github Token
 # Custom Path Info
 export LC_ALL="en_US.UTF-8"
@@ -335,5 +332,3 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 #eval "$(pyenv virtualenv-init -)"
 #alias brew="env PATH=${PATH//$(pyenv root)\/shims:/} brew"
 
-# added by Snowflake SnowSQL installer v1.0
-export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
