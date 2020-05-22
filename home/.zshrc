@@ -290,16 +290,9 @@ then
     #autoload run-help
     HELPDIR=/usr/local/share/zsh/help
     alias ls='ls -G'
-    export PATH="/Users/jsu/exosite/secretshare/build/native:$PATH"
-    #export PATH="$(brew --prefix homebrew/php/php70)/bin:$PATH"
-    # The next line updates PATH for the Google Cloud SDK.
-    #if [ -f '/Users/jsu/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/jsu/google-cloud-sdk/path.zsh.inc'; fi
-
-    # The next line enables shell command completion for gcloud.
-    #if [ -f '/Users/jsu/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/jsu/google-cloud-sdk/completion.zsh.inc'; fi
-elif [[ $UNAME == 'FreeBSD' ]]
     # added by Snowflake SnowSQL installer v1.0
     export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
+elif [[ $UNAME == 'FreeBSD' ]]
 then
     alias ls='ls -G'
 elif [[ $UNAME == 'OpenBSD' ]]
