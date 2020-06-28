@@ -301,13 +301,12 @@ then
 elif [[ $UNAME == 'Linux' ]]
 then
     alias ls='ls --color'
-    PROMPT='%m# '
 fi
 
 # Github Token
 # Custom Path Info
-export LC_ALL="en_US.UTF-8"
-export LANG="en_US.UTF-8"
+export LC_ALL="C.UTF-8"
+export LANG="C.UTF-8"
 export GPG_TTY=$(tty)
 
 alias jq="jq --color-output"
