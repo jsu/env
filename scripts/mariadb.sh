@@ -4,7 +4,7 @@ container_name="some-mariadb"
 cid=$(docker container ls -a -f name="${container_name}" -q)
 if [ -z "${cid}" ]
 then
-    docker run --name ${container_name} -e MYSQL_ROOT_PASSWORD=dev -d mariadb
+    docker run --name ${container_name} -e MYSQL_ROOT_PASSWORD=dev -v ${HOME}/work/jsu:/jsu -d mariadb
 else
     docker start ${container_name}
 fi

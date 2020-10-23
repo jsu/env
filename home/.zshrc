@@ -269,14 +269,16 @@ function __git_ps1 ()
     return $exit
 }
 
+## Virtual ENV
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 virtual_env_wrapper()
 {
-    [ "${VIRTUAL_ENV}" ] && echo "(${VIRTUAL_ENV##*/}) "
+    [ "${VIRTUAL_ENV}" ] && echo "($(basename ${VIRTUAL_ENV})) "
 }
 
 if [[ `id -ru` == 0 ]]
 then
-    PROMPT='$(virtual_env_wrapper)%{$fg[red]%}%m $(git_prompt_wrapper)#%{$reset_color%} '
+    PROMPT='%m# '
 else
     PROMPT='$(virtual_env_wrapper)%{$fg[green]%}%m [%c] $(git_prompt_wrapper)-%n-%{$reset_color%} '
 fi
@@ -312,8 +314,6 @@ export GPG_TTY=$(tty)
 alias jq="jq --color-output"
 alias less="less -r"
 
-# virtualenv
-export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 
 # PYENV
@@ -324,3 +324,6 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 #eval "$(pyenv virtualenv-init -)"
 #alias brew="env PATH=${PATH//$(pyenv root)\/shims:/} brew"
 
+
+# added by Snowflake SnowSQL installer v1.2
+export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
