@@ -324,6 +324,7 @@ alias less="less -r"
 #eval "$(pyenv virtualenv-init -)"
 #alias brew="env PATH=${PATH//$(pyenv root)\/shims:/} brew"
 
+export PATH=${HOME}/sbin:${PATH}
 
 # added by Snowflake SnowSQL installer v1.2
 export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
