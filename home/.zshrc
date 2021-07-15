@@ -310,6 +310,7 @@ fi
 export LC_ALL="C.UTF-8"
 export LANG="C.UTF-8"
 export GPG_TTY=$(tty)
+export HISTTIMEFORMAT="%d/%m/%y %T "
 
 alias jq="jq --color-output"
 alias less="less -r"
