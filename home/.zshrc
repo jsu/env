@@ -7,14 +7,14 @@ setopt appendhistory autocd beep extendedglob nomatch notify
 # Vim Support
 export EDITOR="vim"
 bindkey -v
-bindkey '^R' history-incremental-search-backward
-bindkey '^S' history-incremental-search-forward
-bindkey '^P' history-search-backward
-bindkey '^N' history-search-forward
+bindkey "^R" history-incremental-search-backward
+bindkey "^S" history-incremental-search-forward
+bindkey "^P" history-search-backward
+bindkey "^N" history-search-forward
 
 # Map jk to <esc> and set KEYTIMEOUT=1 to avoid waiting when typing j
 export KEYTIMEOUT=10
-bindkey -M viins 'jk' vi-cmd-mode
+bindkey -M viins "jk" vi-cmd-mode
 
 # get the colors  
 autoload -U colors && colors
@@ -57,44 +57,44 @@ function git_status() {
     local INDEX STATUS
     INDEX=$(command git status --porcelain -b 2> /dev/null)
     STATUS=""
-#    if $(echo "$INDEX" | command grep -E '^\?\? ' &> /dev/null); then
+#    if $(echo "$INDEX" | command grep -E "^\?\? " &> /dev/null); then
 #        STATUS="?$STATUS" # Untracked
 #    fi
-#    if $(echo "$INDEX" | grep '^A  ' &> /dev/null); then
+#    if $(echo "$INDEX" | grep "^A  " &> /dev/null); then
 #        STATUS="A$STATUS" # Added
-#    elif $(echo "$INDEX" | grep '^M  ' &> /dev/null); then
+#    elif $(echo "$INDEX" | grep "^M  " &> /dev/null); then
 #        STATUS="A$STATUS" # Added
 #    fi
-#    if $(echo "$INDEX" | grep '^ M ' &> /dev/null); then
+#    if $(echo "$INDEX" | grep "^ M " &> /dev/null); then
 #        STATUS="M$STATUS" # Modified
-#    elif $(echo "$INDEX" | grep '^AM ' &> /dev/null); then
+#    elif $(echo "$INDEX" | grep "^AM " &> /dev/null); then
 #        STATUS="M$STATUS" # Modified
-#    elif $(echo "$INDEX" | grep '^ T ' &> /dev/null); then
+#    elif $(echo "$INDEX" | grep "^ T " &> /dev/null); then
 #        STATUS="M$STATUS" # Modified
 #    fi
-#    if $(echo "$INDEX" | grep '^R  ' &> /dev/null); then
+#    if $(echo "$INDEX" | grep "^R  " &> /dev/null); then
 #        STATUS="R$STATUS" # Renamed
 #    fi
-#    if $(echo "$INDEX" | grep '^ D ' &> /dev/null); then
+#    if $(echo "$INDEX" | grep "^ D " &> /dev/null); then
 #        STATUS="D$STATUS" # Deleted
-#    elif $(echo "$INDEX" | grep '^D  ' &> /dev/null); then
+#    elif $(echo "$INDEX" | grep "^D  " &> /dev/null); then
 #        STATUS="D$STATUS" # Deleted
-#    elif $(echo "$INDEX" | grep '^AD ' &> /dev/null); then
+#    elif $(echo "$INDEX" | grep "^AD " &> /dev/null); then
 #        STATUS="D$STATUS" # Deleted
 #    fi
     if $(command git rev-parse --verify refs/stash >/dev/null 2>&1); then
         STATUS="S$STATUS" # Stashed
     fi
-    if $(echo "$INDEX" | grep '^UU ' &> /dev/null); then
+    if $(echo "$INDEX" | grep "^UU " &> /dev/null); then
         STATUS="U$STATUS" # Unmerged
     fi
-    if $(echo "$INDEX" | grep '^## .*ahead' &> /dev/null); then
+    if $(echo "$INDEX" | grep "^## .*ahead" &> /dev/null); then
         STATUS="+$STATUS" # Ahead
     fi
-    if $(echo "$INDEX" | grep '^## .*behind' &> /dev/null); then
+    if $(echo "$INDEX" | grep "^## .*behind" &> /dev/null); then
         STATUS="-$STATUS" # Behind
     fi
-    if $(echo "$INDEX" | grep '^## .*diverged' &> /dev/null); then
+    if $(echo "$INDEX" | grep "^## .*diverged" &> /dev/null); then
         STATUS="µ$STATUS" # Diverged
     fi
     echo $STATUS
@@ -128,15 +128,15 @@ function __git_ps1 ()
 
 	local short_sha=""
 	if [ "$rev_parse_exit_code" = "0" ]; then
-		short_sha="${repo_info##*$'\n'}"
-		repo_info="${repo_info%$'\n'*}"
+		short_sha="${repo_info##*$"\n"}"
+		repo_info="${repo_info%$"\n"*}"
 	fi
-	local inside_worktree="${repo_info##*$'\n'}"
-	repo_info="${repo_info%$'\n'*}"
-	local bare_repo="${repo_info##*$'\n'}"
-	repo_info="${repo_info%$'\n'*}"
-	local inside_gitdir="${repo_info##*$'\n'}"
-	local g="${repo_info%$'\n'*}"
+	local inside_worktree="${repo_info##*$"\n"}"
+	repo_info="${repo_info%$"\n"*}"
+	local bare_repo="${repo_info##*$"\n"}"
+	repo_info="${repo_info%$"\n"*}"
+	local inside_gitdir="${repo_info##*$"\n"}"
+	local g="${repo_info%$"\n"*}"
     
 	local r=""
 	local b=""
@@ -234,7 +234,7 @@ function __git_ps1 ()
 			s="$"
 		fi
 
-		if git ls-files --others --exclude-standard --directory --no-empty-directory --error-unmatch -- ':/*' >/dev/null 2>/dev/null
+		if git ls-files --others --exclude-standard --directory --no-empty-directory --error-unmatch -- ":/*" >/dev/null 2>/dev/null
 		then
 			u="%${ZSH_VERSION+%}"
 		fi
@@ -278,15 +278,15 @@ virtual_env_wrapper()
 
 if [[ `id -ru` == 0 ]]
 then
-    PROMPT='%m# '
+    PROMPT="%m# "
 else
-    PROMPT='$(virtual_env_wrapper)%{$fg[green]%}%m [%c] $(git_prompt_wrapper)-%n-%{$reset_color%} '
+    PROMPT="$(virtual_env_wrapper)%{$fg[green]%}%m [%c] $(git_prompt_wrapper)-%n-%{$reset_color%} "
 fi
 
 # Custom MISC
 umask 0002
 UNAME=$(command uname -s)
-if [[ $UNAME == 'Darwin' ]]
+if [[ $UNAME == "Darwin" ]]
 then
     #unalias run-help
     #autoload run-help
@@ -295,15 +295,15 @@ then
     alias history="history -i"
     # added by Snowflake SnowSQL installer v1.0
     export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
-elif [[ $UNAME == 'FreeBSD' ]]
+elif [[ $UNAME == "FreeBSD" ]]
 then
-    alias ls='ls -G'
-elif [[ $UNAME == 'OpenBSD' ]]
+    alias ls="ls -G"
+elif [[ $UNAME == "OpenBSD" ]]
 then
-    alias ls='colorls -G'
-elif [[ $UNAME == 'Linux' ]]
+    alias ls="colorls -G"
+elif [[ $UNAME == "Linux" ]]
 then
-    alias ls='ls --color'
+    alias ls="ls --color"
     export HISTTIMEFORMAT="%d/%m/%y %T "
 fi
 
