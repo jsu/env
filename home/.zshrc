@@ -291,7 +291,8 @@ then
     #unalias run-help
     #autoload run-help
     HELPDIR=/usr/local/share/zsh/help
-    alias ls='ls -G'
+    alias ls="ls -G"
+    alias history="history -i"
     # added by Snowflake SnowSQL installer v1.0
     export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
 elif [[ $UNAME == 'FreeBSD' ]]
@@ -303,6 +304,7 @@ then
 elif [[ $UNAME == 'Linux' ]]
 then
     alias ls='ls --color'
+    export HISTTIMEFORMAT="%d/%m/%y %T "
 fi
 
 # Github Token
@@ -310,7 +312,6 @@ fi
 export LC_ALL="C.UTF-8"
 export LANG="C.UTF-8"
 export GPG_TTY=$(tty)
-export HISTTIMEFORMAT="%d/%m/%y %T "
 
 alias jq="jq --color-output"
 alias less="less -r"
