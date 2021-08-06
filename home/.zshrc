@@ -280,7 +280,7 @@ if [[ `id -ru` == 0 ]]
 then
     PROMPT="%m# "
 else
-    PROMPT="$(virtual_env_wrapper)%{$fg[green]%}%m [%c] $(git_prompt_wrapper)-%n-%{$reset_color%} "
+    PROMPT='$(virtual_env_wrapper)%{$fg[green]%}%m [%c] $(git_prompt_wrapper)-%n-%{$reset_color%} '
 fi
 
 # Custom MISC
