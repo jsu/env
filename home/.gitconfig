@@ -4,7 +4,5 @@
 	email = jsu317@gmail.com
 [commit]
 	gpgsign = true
-[gpg]
-	program = gpg
 [pull]
 	rebase = false
