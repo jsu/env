@@ -78,6 +78,10 @@ export GPG_TTY=$(tty)
 alias jq="jq --color-output"
 alias less="less -r"
 
+# AWS
+export AWS_DEFAULT_REGION=$(cat ~/.aws/credentials | awk '$1=="region" {print $3; exit}')
+export AWS_ACCESS_KEY_ID=$(cat ~/.aws/credentials | awk '$1=="aws_access_key_id" {print $3; exit}')
+export AWS_SECRET_ACCESS_KEY=$(cat ~/.aws/credentials | awk '$1=="aws_secret_access_key" {print $3; exit}')
 
 export PATH=${HOME}/sbin:${PATH}
 
