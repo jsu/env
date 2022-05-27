@@ -16,12 +16,12 @@ bindkey "^N" history-search-forward
 export KEYTIMEOUT=10
 bindkey -M viins "jk" vi-cmd-mode
 
-# get the colors  
+# get the colors
 autoload -U colors && colors
 autoload -Uz compinit && compinit
 
-# load prompt functions  
-setopt prompt_subst  
+# load prompt functions
+setopt prompt_subst
 unsetopt transient_rprompt # leave the pwd
 
 
@@ -32,7 +32,7 @@ virtual_env_wrapper()
     [ "${VIRTUAL_ENV}" ] && echo "($(basename ${VIRTUAL_ENV})) "
 }
 
-if [[ `id -ru` == 0 ]]
+if [[ $(id -ru) == 0 ]]
 then
     PROMPT="%m# "
 else
@@ -79,11 +79,12 @@ alias jq="jq --color-output"
 alias less="less -r"
 
 # AWS
-export AWS_DEFAULT_REGION=$(cat ~/.aws/credentials | awk '$1=="region" {print $3; exit}')
-export AWS_ACCESS_KEY_ID=$(cat ~/.aws/credentials | awk '$1=="aws_access_key_id" {print $3; exit}')
-export AWS_SECRET_ACCESS_KEY=$(cat ~/.aws/credentials | awk '$1=="aws_secret_access_key" {print $3; exit}')
+if [ -f ~/.aws/credentials ]
+then
+    export AWS_DEFAULT_REGION=$(cat ~/.aws/credentials | awk -F= '/^region/ {gsub(/ /, "", $2); print $2; exit}')
+    export AWS_ACCESS_KEY_ID=$(cat ~/.aws/credentials | awk -F= '/^aws_access_key_id/ {gsub(/ /, "", $2); print $2; exit}')
+    export AWS_SECRET_ACCESS_KEY=$(cat ~/.aws/credentials | awk -F= '/^aws_secret_access_key/ {gsub(/ /, "", $2); print $2; exit}')
+fi
 
 export PATH=${HOME}/sbin:${PATH}
 
-# added by Snowflake SnowSQL installer v1.2
-export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
