@@ -71,8 +71,8 @@ fi
 
 # Github Token
 # Custom Path Info
-export LC_ALL="C.UTF-8"
-export LANG="C.UTF-8"
+export LC_ALL="en_US.UTF-8"
+export LANG=${LC_ALL}
 export GPG_TTY=$(tty)
 
 alias jq="jq --color-output"
@@ -88,3 +88,6 @@ fi
 
 export PATH=${HOME}/sbin:${PATH}
 
+
+# added by Snowflake SnowSQL installer v1.2
+export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
