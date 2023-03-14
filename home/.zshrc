@@ -42,7 +42,7 @@ else
     source ${git_prompt_file}
     export GIT_PS1_SHOWDIRTYSTATE=true
     export GIT_PS1_SHOWUNTRACKEDFILES=true
-    precmd () { __git_ps1 "$(virtual_env_wrapper)%{$fg[green]%}%m [%c]" "%s -%n-%{$reset_color%} " }
+    precmd () { __git_ps1 "$(virtual_env_wrapper)%{$fg[blue]%}%D{%T} %{$fg[green]%}%m [%c]" "%s -%n-%{$reset_color%} " }
 fi
 
 # Custom MISC
@@ -91,3 +91,8 @@ export PATH=${HOME}/sbin:${PATH}
 
 # added by Snowflake SnowSQL installer v1.2
 export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
+
+
+# Astronomer
+export ASTRO_WORKSPACE_ID="clbv5nmpo505735e82j8rg0l4va"
+export ASTRO_DEPLOYMENT_ID="cld935oij503745md2z25cidtke"
