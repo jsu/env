@@ -41,7 +41,10 @@ else
     [ -f ${git_prompt_file} ] || curl --url ${git_prompt_url} -o ${git_prompt_file} -s
     source ${git_prompt_file}
     export GIT_PS1_SHOWDIRTYSTATE=true
+    export GIT_PS1_SHOWSTASHSTATE=true
     export GIT_PS1_SHOWUNTRACKEDFILES=true
+    export GIT_PS1_SHOWUPSTREAM="auto"
+    export GIT_PS1_DESCRIBE_STYLE="branch"
     precmd () { __git_ps1 "$(virtual_env_wrapper)%{$fg[blue]%}%D{%T} %{$fg[green]%}%m [%c]" "%s -%n-%{$reset_color%} " }
 fi
 
@@ -91,8 +94,3 @@ export PATH=${HOME}/sbin:${PATH}
 
 # added by Snowflake SnowSQL installer v1.2
 export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
-
-
-# Astronomer
-export ASTRO_WORKSPACE_ID="clbv5nmpo505735e82j8rg0l4va"
-export ASTRO_DEPLOYMENT_ID="cld935oij503745md2z25cidtke"
