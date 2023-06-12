@@ -24,6 +24,9 @@ autoload -Uz compinit && compinit
 setopt prompt_subst
 unsetopt transient_rprompt # leave the pwd
 
+# plugins
+plugins=(command-not-found)
+
 
 ## Virtual ENV
 export VIRTUAL_ENV_DISABLE_PROMPT=1
