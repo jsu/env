@@ -60,6 +60,8 @@ then
     alias history="history -i"
     # added by Snowflake SnowSQL installer v1.0
     export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
+    # Disable "allow mouse reporting" on OSX Terminal app
+    osascript -e 'tell application "System Events" to keystroke "r" using command down'
 elif [[ $UNAME == "FreeBSD" ]]
 then
     alias ls="ls -G"
