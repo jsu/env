@@ -99,3 +99,9 @@ export PATH=${HOME}/sbin:${PATH}
 
 # added by Snowflake SnowSQL installer v1.2
 export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/jsu/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/jsu/Downloads/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/jsu/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/jsu/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
