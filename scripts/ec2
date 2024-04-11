@@ -1,0 +1,40 @@
+#!/usr/bin/env sh
+set -eu
+
+instance=$1
+
+case ${instance} in
+    "dev")
+        name="devbox_eng-jsu"
+        ;;
+    "prometheus-prod")
+        name="deng_prometheus_prod"
+        ;;
+    "prometheus-stage")
+        name="deng_prometheus_stage"
+        ;;
+    "alfred")
+        name="alfred_prod"
+        ;;
+    *)
+        echo "${instance} does not exist"
+        exit 1
+        ;;
+esac
+
+while :
+do
+    # instance-state-code 16 = running
+    ip=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=${name}" "Name=instance-state-code,Values=16" --query "Reservations[0].Instances[0].PrivateIpAddress" | jq "." -M -r)
+    echo "IP is ${ip}"
+    [ "${ip}" = "null" ] && sleep 10 || break
+done
+
+
+host_file="/etc/hosts"
+sudo sed -i "" "/${instance}/d" ${host_file}
+echo "${ip}\t${instance}" | sudo tee -a ${host_file}
+
+set -x
+ssh -i ~/.ssh/aws.pem -l ubuntu ${ip}
+set +x
