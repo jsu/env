@@ -65,6 +65,7 @@ then
     export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
     # Disable "allow mouse reporting" on OSX Terminal app
     osascript -e 'tell application "System Events" to keystroke "r" using command down'
+    stty -a | grep mouse && stty -ixon
 elif [[ $UNAME == "FreeBSD" ]]
 then
     alias ls="ls -G"
@@ -89,12 +90,24 @@ alias less="less -r"
 # AWS
 if [ -f ~/.aws/credentials ]
 then
-    export AWS_DEFAULT_REGION=$(cat ~/.aws/credentials | awk -F= '/^region/ {gsub(/ /, "", $2); print $2; exit}')
-    export AWS_ACCESS_KEY_ID=$(cat ~/.aws/credentials | awk -F= '/^aws_access_key_id/ {gsub(/ /, "", $2); print $2; exit}')
-    export AWS_SECRET_ACCESS_KEY=$(cat ~/.aws/credentials | awk -F= '/^aws_secret_access_key/ {gsub(/ /, "", $2); print $2; exit}')
+    cfile="~/.aws/credentials"
+    export AWS_DEFAULT_REGION=$(awk '/region/ {print $3; exit}' ~/.aws/credentials)
+    export AWS_ACCESS_KEY_ID=$(awk '/aws_access_key_id/ {print $3; exit}' ~/.aws/credentials)
+    export AWS_SECRET_ACCESS_KEY=$(awk '/aws_secret_access_key/ {print $3; exit}' ~/.aws/credentials)
 fi
 
+# jsu env
 export PATH=${HOME}/sbin:${PATH}
+
+# Homebrew
+export PATH=/opt/homebrew/bin:${PATH}
+alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
+
+# Pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 
 # added by Snowflake SnowSQL installer v1.2

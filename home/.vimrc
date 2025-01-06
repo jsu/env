@@ -10,6 +10,7 @@ set autoindent
 set backupdir=~/.vim
 set directory=~/.vim
 set expandtab
+set mouse=
 set ruler
 set shiftwidth=4
 set softtabstop=4

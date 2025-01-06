@@ -4,14 +4,20 @@ set -eu
 instance=$1
 
 case ${instance} in
+    "etl-jenkins")
+        name="etl_jenkins_prod_1"
+        ;;
     "dev")
-        name="devbox_eng-jsu"
+        name="devbox_eng-jaysu"
         ;;
     "prometheus-prod")
         name="deng_prometheus_prod"
         ;;
     "prometheus-stage")
         name="deng_prometheus_stage"
+        ;;
+    "influxdb-prod")
+        name="influxdb_prod"
         ;;
     "alfred")
         name="alfred_prod"
