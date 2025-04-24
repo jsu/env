@@ -8,7 +8,7 @@ case ${instance} in
         name="etl_jenkins_prod_1"
         ;;
     "dev")
-        name="devbox_eng-jaysu"
+        name="devbox_eng-jsu"
         ;;
     "prometheus-prod")
         name="deng_prometheus_prod"
