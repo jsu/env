@@ -117,3 +117,13 @@ if [ -f '/Users/jsu/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/j
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/jsu/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/jsu/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+
+# uv
+export PATH="${HOME}/.local/bin:${PATH}"
+
+# Claude Code
+export CLAUDE_CODE_USE_BEDROCK=1
+export PATH="${HOME}/.npm-global/bin:${PATH}"
+
+. "$HOME/.local/bin/env"
