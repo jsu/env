@@ -1,8 +1,9 @@
 # Commit And Push
 
-- Check all the changes made in this repo with `git status` and `git diff`
+## Todos
+- Check changes with `git status` and `git diff`
 - Show what files would be included with `git add -n .` 
-- Update all README.md files if necessary
-- Confirm with user before proceeding with commit
-- Add all changes to commit with `git add .` followed by `git commit -m "descriptive message" --no-gpg-sign`
-- Push to remote branch with `git push origin HEAD`
+- Check if README.md files need updating
+- Get confirmation before committing 
+- Add and commit changes with descriptive, but brief message with arg `--no-gpg-sign`
+- Push change to remote
