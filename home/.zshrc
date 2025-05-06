@@ -126,6 +126,7 @@ export PATH="${HOME}/.local/bin:${PATH}"
 
 # Claude Code
 export CLAUDE_CODE_USE_BEDROCK=1
+export AWS_REGION=us-west-2
 export PATH="${HOME}/.npm-global/bin:${PATH}"
 
 . "$HOME/.local/bin/env"
