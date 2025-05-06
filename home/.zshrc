@@ -100,13 +100,15 @@ export PATH=${HOME}/scripts:${PATH}
 
 # Homebrew
 export PATH=/opt/homebrew/bin:${PATH}
-alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
 
 # Pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+if [ -d "$HOME/.pyenv" ]; then
+    export PYENV_ROOT="$HOME/.pyenv"
+    [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
+    alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
+fi
 
 
 # added by Snowflake SnowSQL installer v1.2
