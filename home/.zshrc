@@ -130,3 +130,4 @@ export AWS_REGION=us-west-2
 export PATH="${HOME}/.npm-global/bin:${PATH}"
 
 . "$HOME/.local/bin/env"
+alias claude="/home/jsu/.claude/local/claude"
