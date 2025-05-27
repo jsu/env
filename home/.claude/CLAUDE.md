@@ -11,7 +11,6 @@ Every .py file's gotta follow PEP-8, y'all hear? No extra whitespaces sneakin' i
 
 # Rule for whipin' up Python code that's slicker than a greased pig
 When cookin' up some Python code:
-- NO TYPE HINTS ALLOWED in any Python code! We don't use the `typing` module or any `variable: type` annotations. Keep it old-school Python.
 - Keep it short, sweet, and clear as a bell, with no extra fluff.
 
 ### Shell Scriptin' - POSIX or Nothin'!
