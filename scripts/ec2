@@ -22,6 +22,9 @@ case ${instance} in
     "alfred")
         name="alfred_prod"
         ;;
+    "alfred")
+        name="alfred_prod"
+        ;;
     *)
         echo "${instance} does not exist"
         exit 1
