@@ -1,3 +1,4 @@
 **/.claude/settings.local.json
 home/.claude/todos/
 home/.claude/__store.db
+scripts/snowflake-otp.py
