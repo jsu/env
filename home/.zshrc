@@ -12,10 +12,6 @@ bindkey "^S" history-incremental-search-forward
 bindkey "^P" history-search-backward
 bindkey "^N" history-search-forward
 
-# Map jk to <esc> and set KEYTIMEOUT=1 to avoid waiting when typing j
-export KEYTIMEOUT=10
-bindkey -M viins "jk" vi-cmd-mode
-
 # get the colors
 autoload -U colors && colors
 autoload -Uz compinit && compinit
@@ -56,8 +52,6 @@ umask 0002
 UNAME=$(command uname -s)
 if [[ $UNAME == "Darwin" ]]
 then
-    #unalias run-help
-    #autoload run-help
     HELPDIR=/usr/local/share/zsh/help
     alias ls="ls -G"
     alias history="history -i"
@@ -87,32 +81,30 @@ export GPG_TTY=$(tty)
 alias jq="jq --color-output"
 alias less="less -r"
 
-# AWS
-#if [ -f ~/.aws/credentials ]
-#then
-#    export AWS_DEFAULT_REGION=$(awk '/region/ {print $3; exit}' ~/.aws/credentials)
-#    export AWS_ACCESS_KEY_ID=$(awk '/aws_access_key_id/ {print $3; exit}' ~/.aws/credentials)
-#    export AWS_SECRET_ACCESS_KEY=$(awk '/aws_secret_access_key/ {print $3; exit}' ~/.aws/credentials)
-#fi
-
-# jsu env
+# My env
 export PATH=${HOME}/scripts:${PATH}
 
 # Homebrew
-export PATH=/opt/homebrew/bin:${PATH}
+HOMEBREW=/opt/homebrew/bin
+[ -d ${HOMEBREW} ] && export PATH=${HOMEBREW}:${PATH}
+
+# uv
+LOCAL_BIN=${HOME}/.local/bin
+[ -d ${LOCAL_BIN} ] && export PATH="${LOCAL_BIN}:${PATH}"
 
 # Pyenv
-if [ -d "$HOME/.pyenv" ]; then
-    export PYENV_ROOT="$HOME/.pyenv"
+PYENV_ROOT="${HOME}/.pyenv"
+if [ -d ${PYEN_ROOT} ]; then
+    export PYENV_ROOT=${PYENV_ROOT}
     [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
     alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
 fi
 
-
 # added by Snowflake SnowSQL installer v1.2
 export PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
+export PATH=${HOME}/bin:$PATH
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/jsu/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/jsu/Downloads/google-cloud-sdk/path.zsh.inc'; fi
@@ -120,12 +112,18 @@ if [ -f '/Users/jsu/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/j
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/jsu/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/jsu/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
 
-
-# uv
-export PATH="${HOME}/.local/bin:${PATH}"
+# AWS
+export AWS_REGION=us-west-2
 
 # Claude Code
-export CLAUDE_CODE_USE_BEDROCK=1
-export AWS_REGION=us-west-2
-export PATH="${HOME}/.npm-global/bin:${PATH}"
-alias claude="AWS_PROFILE=system1 ${HOME}/.claude/local/claude"
+CLAUDE_CODE_PATH="${HOME}/.claude/local:${PATH}"
+if [ -d ${CLAUDE_CODE_PATH} ]
+then
+    export CLAUDE_CODE_USE_BEDROCK=1
+    export PATH="${CLAUDE_CODE_PATH}:${PATH}"
+    alias claude="AWS_PROFILE=dataeng-dev ~/.claude/local/claude"
+fi
+
+# NPM
+NPM_GLOBAL="$HOME/.npm-global/bin"
+[ -d $NPM_GLOBAL ] && export PATH="$NPM_GLOBAL:$PATH"

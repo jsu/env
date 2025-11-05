@@ -1,4 +1,11 @@
+.update.lock
+debug/
+file-history/
+history.jsonl
 local/
+mcp.json
+plugins/
 projects/
+shell-snapshots/
 statsig/
 todos/
