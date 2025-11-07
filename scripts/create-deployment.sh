@@ -10,18 +10,16 @@ else
     ORIGIN="custom"
 fi
 
-DEPLOYMENT_NAME="jsu-${FEATURE}"
+DEPLOYMENT_NAME="$USER-$FEATURE"
 CLUSTER_ID="cl9hljjl80wg80ty9br8d9qj4"
 WORKSPACE_ID="Not Set Yet"
-WORKLOAD_ID="arn:aws:iam::354891577617:role/AirflowS3Logs-clddzjlw805df0u0d4zinfdxh"
 WORKLOAD_ID="arn:aws:iam::364189071156:role/astronomer_resources_service_role"
 ECR_URI="364189071156.dkr.ecr.us-west-2.amazonaws.com"
-BASE_DIR=${PWD}
-ASTRO_DIR=$([ -d astro ] && echo ${PWD}/astro || echo ${BASE_DIR})
-ASTRO_IMAGE=$(awk '{print $2}' ${ASTRO_DIR}/Dockerfile)
-ASTRO_IMAGE_VERSION=$(awk -F: '{print $2}' ${ASTRO_DIR}/Dockerfile)
-DEPLOYMENT_RUNTIME=${ASTRO_IMAGE_VERSION}
-#DEPLOYMENT_RUNTIME="11.10.1"
+BASE_DIR=$PWD
+ASTRO_DIR=$([ -d astro ] && echo $PWD/astro || echo $BASE_DIR)
+ASTRO_IMAGE=$(awk '{print $2}' $ASTRO_DIR/Dockerfile)
+ASTRO_IMAGE_VERSION=$(awk -F: '{print $2}' $ASTRO_DIR/Dockerfile)
+DEPLOYMENT_RUNTIME=$ASTRO_IMAGE_VERSION
 env_file="NOT SET"
 
 
@@ -41,15 +39,23 @@ decolor(){
 }
 
 
-login(){
+astro_login(){
     step "Login"
-    astro login -t ${ASTRO_TOKEN}
+    [ "$(uname)" != "Darwin" ] && astro login -t $ASTRO_TOKEN || true
 }
 
 
 start_podman(){
     step "Start Podman machine if needed"
-    [ "$(uname)" = "Darwin" ] && podman machine start || true
+    if [ "$(uname)" = "Darwin" ]; then
+        status=$(podman machine list --format "{{.Running}}" --noheading | head -n1)
+        if [ "$status" != "true" ]; then
+            echo "Starting podman machine..."
+            podman machine start
+        else
+            echo "Podman machine is already running ✓"
+        fi
+    fi
 }
 
 
@@ -59,16 +65,16 @@ get_workspace_id(){
 
 
 switch_workspace(){
-    step "Use WORKSPACE: ${WORKSPACE_ID}"
+    step "Use WORKSPACE: $WORKSPACE_ID"
 
-    astro workspace switch ${WORKSPACE_ID}
+    astro workspace switch $WORKSPACE_ID
     astro workspace list
 }
 
 
 set_env(){
     step "Set ENV"
-    case ${ORIGIN} in
+    case $ORIGIN in
         "astronomer_dataeng")
             env_file=".env/.env"
             ;;
@@ -85,40 +91,40 @@ set_env(){
             env_file=".env"
             ;;
         *)
-            echo "Wrong origin: '${ORIGIN}'"
+            echo "Wrong origin: '$ORIGIN'"
             exit 127
             ;;
     esac
-    cat ${ASTRO_DIR}/${env_file}
+    cat $ASTRO_DIR/$env_file
 }
 
 
 create_deployment(){
-    step "Create deployment: ${DEPLOYMENT_NAME} , workspace: ${WORKSPACE_ID} , runtime: ${DEPLOYMENT_RUNTIME}"
+    step "Create deployment: $DEPLOYMENT_NAME , workspace: $WORKSPACE_ID , runtime: $DEPLOYMENT_RUNTIME"
     set -x
     astro deployment create \
-        --name="${DEPLOYMENT_NAME}" \
-        --description="Sandbox for ${USER}" \
+        --name="$DEPLOYMENT_NAME" \
+        --description="Sandbox for $USER" \
         --dag-deploy="enable" \
-        --cluster-id="${CLUSTER_ID}" \
-        --workspace-id="${WORKSPACE_ID}" \
-        --runtime-version="${DEPLOYMENT_RUNTIME}" \
+        --cluster-id="$CLUSTER_ID" \
+        --workspace-id="$WORKSPACE_ID" \
+        --runtime-version="$DEPLOYMENT_RUNTIME" \
         --scheduler-size="small" \
-        --workload-identity="${WORKLOAD_ID}" \
+        --workload-identity="$WORKLOAD_ID" \
         --type="dedicated"
     set +x
 }
 
 
 wait_deployment(){
-    step "Wait for deplyment ${DEPLOYMENT_NAME} become healthy"
+    step "Wait for deplyment $DEPLOYMENT_NAME become healthy"
 
     while true
     do
-        status=$(astro deployment inspect --deployment-name ${DEPLOYMENT_NAME} | awk '/status/ {print $2; exit}')
-        echo "$(date +"%T") -> ${status}"
-        [ ${status} = "UNHEALTHY" ] && exit 127
-        [ ${status} = "HEALTHY" ] && break || sleep 5
+        status=$(astro deployment inspect --deployment-name $DEPLOYMENT_NAME | awk '/status/ {print $2; exit}')
+        echo "$(date +"%T") -> $status"
+        [ $status = "UNHEALTHY" ] && exit 127
+        [ $status = "HEALTHY" ] && break || sleep 5
     done
 }
 
@@ -128,10 +134,10 @@ add_variable(){
 
     set -x
     astro deployment variable create \
-        --deployment-name "${DEPLOYMENT_NAME}" \
-        --workspace-id "${WORKSPACE_ID}" \
+        --deployment-name "$DEPLOYMENT_NAME" \
+        --workspace-id "$WORKSPACE_ID" \
         --load \
-        --env ${env_file}
+        --env $env_file
     set +x
 }
 
@@ -140,7 +146,7 @@ add_update_worker_queue(){
     step "Update/create worker queues"
     set -x
     astro deployment worker-queue update \
-        --deployment-name "${DEPLOYMENT_NAME}" \
+        --deployment-name "$DEPLOYMENT_NAME" \
         --name "default" \
         --worker-type "A5" \
         --min-count 0 \
@@ -156,7 +162,7 @@ enable_dag_deploy(){
     step "Enable dag deploy"
     set -x
     astro deployment update \
-        --deployment-name "${DEPLOYMENT_NAME}" \
+        --deployment-name "$DEPLOYMENT_NAME" \
         --dag-deploy "enable"
     set +x
 }
@@ -164,35 +170,36 @@ enable_dag_deploy(){
 
 ecr_login(){
     step "Login to ECR"
-    aws ecr get-login-password --profile system1 | podman login --username AWS --password-stdin ${ECR_URI}
+    aws ecr get-login-password --profile system1 | podman login --username AWS --password-stdin $ECR_URI
 }
 
 
 update_astro_base_image(){
     step "Pull Astro base image"
-    #image="${ECR_URI}/deng/astronomer:${ASTRO_IMAGE_VERSION}"
-    podman pull ${ASTRO_IMAGE}
+    #image="$ECR_URI/deng/astronomer:$ASTRO_IMAGE_VERSION"
+    #podman pull $image
+    podman pull $ASTRO_IMAGE
 }
 
 
 deploy(){
     step "Initial full deploy"
 
-    cd ${ASTRO_DIR}
+    cd $ASTRO_DIR
     set -x
     astro deploy \
-        --deployment-name "${DEPLOYMENT_NAME}" \
-        --workspace-id "${WORKSPACE_ID}" \
+        --deployment-name "$DEPLOYMENT_NAME" \
+        --workspace-id "$WORKSPACE_ID" \
         --verbosity "info" \
         --force
     set +x
 
-    cd ${BASE_DIR}
+    cd $BASE_DIR
 }
 
 
 main(){
-    login
+    astro_login
     start_podman
     get_workspace_id
     switch_workspace

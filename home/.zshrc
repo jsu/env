@@ -116,11 +116,11 @@ if [ -f '/Users/jsu/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/U
 export AWS_REGION=us-west-2
 
 # Claude Code
-CLAUDE_CODE_PATH="${HOME}/.claude/local:${PATH}"
-if [ -d ${CLAUDE_CODE_PATH} ]
+CLAUDE_CODE_PATH="$HOME/.claude/local"
+if [ -d $CLAUDE_CODE_PATH ]
 then
     export CLAUDE_CODE_USE_BEDROCK=1
-    export PATH="${CLAUDE_CODE_PATH}:${PATH}"
+    export PATH="$CLAUDE_CODE_PATH:$PATH"
     alias claude="AWS_PROFILE=dataeng-dev ~/.claude/local/claude"
 fi
 
