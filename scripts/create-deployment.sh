@@ -77,18 +77,23 @@ set_env(){
     case $ORIGIN in
         "astronomer_dataeng")
             env_file=".env/.env"
+            break
             ;;
         "astronomer_ingestor")
             env_file=".env/.env"
+            break
             ;;
         "data-mapquest")
-            env_file=".env.stage"
+            env_file=".env.development"
+            break
             ;;
         "datasol")
             env_file=".env/.env"
+            break
             ;;
         "custom")
-            env_file=".env"
+            env_file=".env.development"
+            break
             ;;
         *)
             echo "Wrong origin: '$ORIGIN'"
@@ -111,6 +116,7 @@ create_deployment(){
         --runtime-version="$DEPLOYMENT_RUNTIME" \
         --scheduler-size="small" \
         --workload-identity="$WORKLOAD_ID" \
+        --development-mode="enable" \
         --type="dedicated"
     set +x
 }
