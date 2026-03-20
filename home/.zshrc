@@ -1,3 +1,7 @@
+
+# Kiro CLI pre block. Keep at the top of this file.
+[[ -f "${HOME}/.local/share/kiro-cli/shell/zshrc.pre.zsh" ]] && builtin source "${HOME}/.local/share/kiro-cli/shell/zshrc.pre.zsh"
+
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=1000
@@ -127,3 +131,11 @@ fi
 # NPM
 NPM_GLOBAL="$HOME/.npm-global/bin"
 [ -d $NPM_GLOBAL ] && export PATH="$NPM_GLOBAL:$PATH"
+
+
+
+# Kiro CLI post block. Keep at the bottom of this file.
+[[ -f "${HOME}/.local/share/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/.local/share/kiro-cli/shell/zshrc.post.zsh"
+
+# add Pulumi to the PATH
+export PATH=$PATH:/home/jsu/.pulumi/bin

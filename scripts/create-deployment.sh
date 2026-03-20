@@ -10,16 +10,17 @@ else
     ORIGIN="custom"
 fi
 
-DEPLOYMENT_NAME="$USER-$FEATURE"
+DEPLOYMENT_NAME="$FEATURE"
 CLUSTER_ID="cl9hljjl80wg80ty9br8d9qj4"
 WORKSPACE_ID="Not Set Yet"
 WORKLOAD_ID="arn:aws:iam::364189071156:role/astronomer_resources_service_role"
 ECR_URI="364189071156.dkr.ecr.us-west-2.amazonaws.com"
 BASE_DIR=$PWD
 ASTRO_DIR=$([ -d astro ] && echo $PWD/astro || echo $BASE_DIR)
-ASTRO_IMAGE=$(awk '{print $2}' $ASTRO_DIR/Dockerfile)
-ASTRO_IMAGE_VERSION=$(awk -F: '{print $2}' $ASTRO_DIR/Dockerfile)
+ASTRO_IMAGE=$(awk '/^FROM/ {print $2; exit}' $ASTRO_DIR/Dockerfile)
+ASTRO_IMAGE_VERSION=$(awk '/astro-runtime-version/ {split($0, a, " "); print a[3]; exit}' $ASTRO_DIR/Dockerfile)
 DEPLOYMENT_RUNTIME=$ASTRO_IMAGE_VERSION
+CONTAINER_RT=$(command -v podman >/dev/null 2>&1 && echo podman || echo docker)
 env_file="NOT SET"
 
 
@@ -46,12 +47,13 @@ astro_login(){
 
 
 start_podman(){
+    [ "$CONTAINER_RT" != "podman" ] && return 0
     step "Start Podman machine if needed"
     if [ "$(uname)" = "Darwin" ]; then
-        status=$(podman machine list --format "{{.Running}}" --noheading | head -n1)
+        status=$($CONTAINER_RT machine list --format "{{.Running}}" --noheading | head -n1)
         if [ "$status" != "true" ]; then
             echo "Starting podman machine..."
-            podman machine start
+            $CONTAINER_RT machine start
         else
             echo "Podman machine is already running ✓"
         fi
@@ -109,7 +111,7 @@ create_deployment(){
     set -x
     astro deployment create \
         --name="$DEPLOYMENT_NAME" \
-        --description="Sandbox for $USER" \
+        --description="Sandbox for $DEPLOYMENT_NAME" \
         --dag-deploy="enable" \
         --cluster-id="$CLUSTER_ID" \
         --workspace-id="$WORKSPACE_ID" \
@@ -176,7 +178,7 @@ enable_dag_deploy(){
 
 ecr_login(){
     step "Login to ECR"
-    aws ecr get-login-password --profile system1 | podman login --username AWS --password-stdin $ECR_URI
+    aws ecr get-login-password --profile system1 | $CONTAINER_RT login --username AWS --password-stdin $ECR_URI
 }
 
 
@@ -184,7 +186,7 @@ update_astro_base_image(){
     step "Pull Astro base image"
     #image="$ECR_URI/deng/astronomer:$ASTRO_IMAGE_VERSION"
     #podman pull $image
-    podman pull $ASTRO_IMAGE
+    $CONTAINER_RT pull $ASTRO_IMAGE
 }
 
 
