@@ -136,6 +136,8 @@ NPM_GLOBAL="$HOME/.npm-global/bin"
 
 # Kiro CLI post block. Keep at the bottom of this file.
 [[ -f "${HOME}/.local/share/kiro-cli/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/.local/share/kiro-cli/shell/zshrc.post.zsh"
+alias kiro-cli="kiro-cli chat --trust-all-tools"
 
 # add Pulumi to the PATH
 export PATH=$PATH:/home/jsu/.pulumi/bin
+

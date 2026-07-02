@@ -82,7 +82,7 @@ set_env(){
             break
             ;;
         "astronomer_ingestor")
-            env_file=".env/.env"
+            env_file=".env.sandbox"
             break
             ;;
         "data-mapquest")
@@ -207,7 +207,7 @@ deploy(){
 
 
 main(){
-    astro_login
+    #astro_login
     start_podman
     get_workspace_id
     switch_workspace
